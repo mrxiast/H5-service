@@ -1,4 +1,4 @@
-const { HttpException } = require('../core/http-exception.js')
+const { HttpException,ParameterException } = require('../core/http-exception.js')
 const catchError = async (ctx, next) => {
     try {
         await next()
@@ -12,12 +12,13 @@ const catchError = async (ctx, next) => {
             ctx.body = {
                 msg: error.msg,
                 errorCode: error.errorCode,
-                errorUrl: `${ctx.method} ${ctx.path}`
+                errorUrl: `${ctx.method} ${ctx.path}`,
+                code:error.code
             }
-            ctx.status = error.code
+            ctx.status = 200
         } else {
             ctx.body = {
-                msg: '内部异常',
+                msg: 'we made a mistake',
                 errorCode: 999,
                 errorUrl: `${ctx.method} ${ctx.path}`
             }

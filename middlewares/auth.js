@@ -42,4 +42,4 @@ class Auth {
         }
     }
 }
-module.exports = Auth
+module.exports = {Auth}

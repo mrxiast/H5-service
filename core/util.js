@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken')
 
+const {base64} = require('js-base64')
+
 /***
  * 
  */
@@ -49,7 +51,9 @@ const generateToken = function (uid, scope) {
     }, secretKey, {
         expiresIn
     })
-    return token
+    const base64Token = 'Basic ' + Base64.encode(token + ":")
+    return base64Token
+    // return token
 }
 
 

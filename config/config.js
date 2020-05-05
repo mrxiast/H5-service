@@ -1,7 +1,7 @@
 module.exports = {
     env: 'dev',
     database: {
-        dbName: 'block',
+        dbName: 'test',
         host: 'localhost',
         port: '3306',
         user: 'root',
@@ -9,7 +9,7 @@ module.exports = {
     },
     security: {
         secretKey: '2e61bb59e7',
-        expiresIn: 60 * 60 * 2
+        expiresIn: 60 * 60 * 24*1000
     },
     wx: {
         loginUrl: 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code',

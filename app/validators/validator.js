@@ -12,9 +12,56 @@ class ValidationInteger extends LinValidator {
     this.id = [
       // 这里可以添加多个校验规则，但是规则是且的关系
       // 三个参数：第一个参数：需要满足的规则，第二个参数：提示信息，第三个参数：可选参数
-      new Rule('isInt', '参数必须为正整数', { min: 1 })
+      new Rule('isInt', '参数必须为正整数', { min: 1 ,max:11})
       // new Rule ('isNotEmpty', '必须传入参数')
     ]
+  }
+}
+
+//验证电话
+class ValidationPhone extends LinValidator {
+  constructor() {
+    super()
+    this.phone = [
+      // 这里可以添加多个校验规则，但是规则是且的关系
+      // 三个参数：第一个参数：需要满足的规则，第二个参数：提示信息，第三个参数：可选参数
+      new Rule('isLength', '电话号码有误', { min: 11 }),
+      // new Rule('matches', '电话号码有误', '^1[3456789]\d{9}$')
+      // new Rule ('isNotEmpty', '必须传入参数')/^1[3456789]\d{9}$/
+    ]
+  }
+}
+
+//修改密码校验
+class ResetpasswordValitor extends LinValidator {
+  constructor() {
+    super()
+    this.username = [
+      new Rule('isLength', '用户名长度必须在6~20之间', { min: 6, max: 10 }),
+    ]
+
+    this.newpassword1 = [
+      new Rule('isLength', '密码最短6位，最长32位', { min: 6, max: 32 }),
+      new Rule('matches', '密码不符合规范', '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]'),
+      // new Rule('isNotEmpty','密码不能为空')
+    ]
+    this.phone = [
+      new Rule('isLength', '电话格式有误', { min: 11, max: 11 }),
+      // new Rule('isNotEmpty','电话不能为空')
+    ]
+    this.code = [
+      new Rule('isLength', '验证码有误', { min: 4, max: 6 }),
+      // new Rule('isNotEmpty','电话不能为空')
+    ]
+    this.newpassword2 = this.newpassword1
+
+  }
+  validatePassword (vals) {
+    const paw = vals.body.newpassword1
+    const paw1 = vals.body.newpassword2
+    if (paw1 !== paw) {
+      throw new Error('两次输入密码不一样！')
+    }
   }
 }
 
@@ -64,16 +111,27 @@ class RegisterValitor extends LinValidator {
       throw new Error('邮箱已注册')
     }
   }
+  async validateEmail (vals) {
+    const username = vals.body.username
+    const user = await User.findOne({
+      where: {
+        username: username
+      }
+    })
+    if (user) {
+      throw new Error('账号已注册')
+    }
+  }
 }
 
 //生成token接口的校验
 class TokenValitor extends LinValidator {
   constructor() {
     super()
-    this.account = [
+    this.username = [
       new Rule('isLength', '帐号6~23位', { min: 6, max: 32 })
     ]
-    this.secret = [
+    this.password = [
       new Rule('isOptional'),
       new Rule('isLength', '密码6~23位', { min: 6, max: 128 })
     ]
@@ -144,5 +202,7 @@ module.exports = {
   TokenValitor,
   NotEmptyValidtor,
   LikeValidtor,
-  CommentValidtor
+  CommentValidtor,
+  ValidationPhone,
+  ResetpasswordValitor
 }

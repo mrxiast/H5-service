@@ -3,28 +3,31 @@ const { User } = require('../../models/user')
 const { TokenValitor, NotEmptyValidtor } = require('../../validators/validator')
 const { LoginType } = require('../lib/LoginType')
 const { generateToken } = require('../../../core/util')
-const Auth = require('../../../middlewares/auth')
+const {Auth} = require('../../../middlewares/auth')
+const {WebRouter} = require('../../models/webrouters')
 
 const WechatManger = require('../../servise/wechatManger')
 
 const router = new Router({
-    prefix: '/v1/token'
+    prefix: '/v1/login'
 })
 
-router.post('/getOpenid', async (ctx, next) => {
+router.post('/', async (ctx, next) => {
+        const a = await new WebRouter()
     const V = await new TokenValitor().validate(ctx)
-    let openid;
+    let token;
+    console.log(V.get('body.type'))
     switch (V.get('body.type')) {
 
         case LoginType.WECHAT_LOGIN:
 
-            openid = await WechatManger.getOpenId(V.get('body.account'))
+            token = await WechatManger.getOpenId(V.get('body.account'))
 
             break;
 
-        case LoginType.EMAIL_LOGIN:
+        case LoginType.ACC_LOGIN:
 
-            openid = await emailLogin(V.get('body.account'), V.get('body.password'))
+            token = await accLogin(V.get('body.username'), V.get('body.password'))
 
             break;
 
@@ -37,19 +40,19 @@ router.post('/getOpenid', async (ctx, next) => {
 
     }
 
-    async function emailLogin (account, secret) {
-        const user = await User.verifyEmailPassword(account, secret)
+    async function accLogin (username, password) {
+        const user = await User.verifyEmailPassword(username, password)
         return generateToken(user.id, Auth.ADMIN)
     }
 
     ctx.body = {
-        openid
+        code:200,
+        token
     }
 
 })
 
 router.post('/getToken', async (ctx, next) => {
-    console.log(ctx.request.body, '770')
     const openId = ctx.request.body.openid
     const token = generateToken(openId, Auth.WECHAT)
 

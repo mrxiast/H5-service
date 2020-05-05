@@ -1,7 +1,7 @@
 
 const Router = require('koa-router')
 const { User } = require('../../models/user')
-const { RegisterValitor } = require('../../validators/validator')
+const { RegisterValitor,ValidationPhone,ResetpasswordValitor } = require('../../validators/validator')
 const success = require('../lib/helper')
 const Uuid = require('uuid')
 
@@ -22,6 +22,31 @@ router.post('/register', async (ctx, next) => {
     console.log(userInfo, 'userInfouserInfouserInfo')
     const result = await User.create(userInfo)
     success()
+})
+router.get('/getCode',async (ctx,next)=>{
+    const v = await new ValidationPhone().validate(ctx)
+    const phone = v.get('body.phone')
+    ctx.body = {
+        code:200,
+        msg:'操作成功',
+        phoneCode : 1992
+    }
+})
+router.post('/reset',async(ctx,next)=>{
+    const v =await new ResetpasswordValitor().validate(ctx)
+    const username = v.get('body.username')
+
+    const password = v.get('body.newpassword1')
+    const user = await User.verifyResetPassword(username,password)
+    if(user){
+        ctx.body={
+            code:200,
+            msg:'修改成功',
+            result:true
+        }
+    }
+
+
 })
 
 module.exports = router

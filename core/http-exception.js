@@ -1,7 +1,7 @@
 //错误的类  已知错误
 class HttpException extends Error {
 
-    constructor(msg = "未知错误", code = 400, errorCode = 100001) {
+    constructor(msg = "服务器异常", code = 400, errorCode = 10000) {
         super()
         this.msg = msg
         this.code = code
@@ -13,8 +13,8 @@ class ParameterException extends HttpException {
     constructor(msg, erorCode) {
         super()
         this.msg = msg || '参数错误'
-        this.code = 500
-        this.errorCode = erorCode || 40014
+        this.code = 400
+        this.errorCode = erorCode || 40001
     }
 }
 
@@ -23,9 +23,7 @@ class Success extends HttpException {
         super()
         this.msg = msg || '操作成功'
         this.code = 200
-        if (errorCode != '') {
-            this.errorCode = errorCode || 0
-        }
+        this.errorCode = errorCode || 0
 
     }
 }

@@ -10,7 +10,7 @@ function isType(val){
 }
 const LoginType = {
     WECHAT_LOGIN:'100',
-    EMAIL_LOGIN:'101',
+    ACC_LOGIN:'101',
     PHONE_LOGIN:'102',
     isType
 }
