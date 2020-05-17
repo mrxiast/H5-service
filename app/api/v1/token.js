@@ -3,8 +3,8 @@ const { User } = require('../../models/user')
 const { TokenValitor, NotEmptyValidtor } = require('../../validators/validator')
 const { LoginType } = require('../lib/LoginType')
 const { generateToken } = require('../../../core/util')
-const {Auth} = require('../../../middlewares/auth')
-const {WebRouter} = require('../../models/webrouters')
+const { Auth } = require('../../../middlewares/auth')
+const { WebRouter } = require('../../models/webrouters')
 
 const WechatManger = require('../../servise/wechatManger')
 
@@ -13,10 +13,9 @@ const router = new Router({
 })
 
 router.post('/', async (ctx, next) => {
-        const a = await new WebRouter()
+    const a = await new WebRouter()
     const V = await new TokenValitor().validate(ctx)
     let token;
-    console.log(V.get('body.type'))
     switch (V.get('body.type')) {
 
         case LoginType.WECHAT_LOGIN:
@@ -42,11 +41,12 @@ router.post('/', async (ctx, next) => {
 
     async function accLogin (username, password) {
         const user = await User.verifyEmailPassword(username, password)
+
         return generateToken(user.id, Auth.ADMIN)
     }
 
     ctx.body = {
-        code:200,
+        code: 200,
         token
     }
 

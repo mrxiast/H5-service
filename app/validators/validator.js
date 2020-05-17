@@ -12,7 +12,20 @@ class ValidationInteger extends LinValidator {
     this.id = [
       // 这里可以添加多个校验规则，但是规则是且的关系
       // 三个参数：第一个参数：需要满足的规则，第二个参数：提示信息，第三个参数：可选参数
-      new Rule('isInt', '参数必须为正整数', { min: 1 ,max:11})
+      new Rule('isInt', '参数必须为正整数', { min: 1, max: 11 })
+      // new Rule ('isNotEmpty', '必须传入参数')
+    ]
+  }
+}
+
+// 校验Type参数是否为正整数
+class ValidationTypeInteger extends LinValidator {
+  constructor() {
+    super()
+    this.type = [
+      // 这里可以添加多个校验规则，但是规则是且的关系
+      // 三个参数：第一个参数：需要满足的规则，第二个参数：提示信息，第三个参数：可选参数
+      new Rule('isInt', '参数必须为正整数', { min: 1, max: 11 })
       // new Rule ('isNotEmpty', '必须传入参数')
     ]
   }
@@ -173,6 +186,7 @@ class LikeValidtor extends LinValidator {
     ]
   }
 }
+
 //验证书籍评论
 class CommentValidtor extends LinValidator {
   constructor() {
@@ -196,6 +210,75 @@ class CommentValidtor extends LinValidator {
   }
 }
 
+//验证删除收货地址
+class DelAddressValidtor extends LinValidator {
+  constructor() {
+    super()
+    this.userId = [
+      new Rule('isLength', 'userId不能为空', { min: 1 })
+    ]
+    this.id = [
+      new Rule('isLength', 'id参数不能为空', { min: 1 })
+    ]
+  }
+}
+
+//验证修改收货地址
+class AddOrChangeValidtor extends LinValidator {
+  constructor() {
+    super()
+    this.userId = [
+      new Rule('isLength', 'userId不能为空', { min: 1 })
+    ]
+    this.id = [
+      new Rule('isLength', 'id参数不能为空', { min: 1 })
+    ]
+    this.addressDetail = [
+      new Rule('isLength', '详细地址不能为空', { min: 1 })
+    ]
+    this.county = [
+      new Rule('isLength', '区县不能为空', { min: 1 })
+    ]
+    this.isDefault = [
+      new Rule('isLength', '默认状态不能为空', { min: 1 })
+    ]
+    this.name = [
+      new Rule('isLength', '姓名长度为1~12', { min: 1, max: 12 })
+    ]
+    this.province = [
+      new Rule('isLength', '省不能为空', { min: 1 })
+    ]
+    this.tel = [
+      new Rule('isLength', '电话不能为空', { min: 1 })
+    ]
+  }
+}
+
+//验证添加收货地址
+class AddAddressValidtor extends LinValidator {
+  constructor() {
+    super()
+    this.addressDetail = [
+      new Rule('isLength', '详细地址不能为空', { min: 1 })
+    ]
+    this.county = [
+      new Rule('isLength', '区县不能为空', { min: 1 })
+    ]
+    this.isDefault = [
+      new Rule('isLength', '默认状态不能为空', { min: 1 })
+    ]
+    this.name = [
+      new Rule('isLength', '姓名长度为1~12', { min: 1, max: 12 })
+    ]
+    this.province = [
+      new Rule('isLength', '省不能为空', { min: 1 })
+    ]
+    this.tel = [
+      new Rule('isLength', '电话不能为空', { min: 1 })
+    ]
+  }
+}
+
 module.exports = {
   ValidationInteger,
   RegisterValitor,
@@ -204,5 +287,9 @@ module.exports = {
   LikeValidtor,
   CommentValidtor,
   ValidationPhone,
-  ResetpasswordValitor
+  ResetpasswordValitor,
+  ValidationTypeInteger,
+  DelAddressValidtor,
+  AddOrChangeValidtor,
+  AddAddressValidtor
 }

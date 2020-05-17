@@ -11,7 +11,7 @@ const sequelize = new Sequelize(dbName, user, password, {
     define: {
         // raw:true,//true 返回源数据
         timestamps: true,
-        paranoid: true,
+        paranoid: true,//true 软删除 false 物理删除
         underscored: true,//驼峰命名变为下划线
         createdAt: 'created_at',
         updatedAt: 'updated_at',

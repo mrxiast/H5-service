@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const {base64} = require('js-base64')
+const { Base64 } = require('js-base64')
 
 /***
  * 
@@ -56,6 +56,22 @@ const generateToken = function (uid, scope) {
     // return token
 }
 
+//解析token 得出用户ID
+const getUidByToken = function (ctx) {
+    const secretKey = global.config.security.secretKey
+    const authorization = ctx.request.header.authorization;
+    const token = Base64.decode(authorization.split(' ')[1])
+    const endToken = token.substr(0, token.length - 1)
+    const userId = jwt.verify(endToken, secretKey, (error, decoded) => {
+        if (error) {
+            console.log(error)
+            throw new Error(error)
+        }
+        return decoded.uid
+    })
+    return userId
+}
+
 
 const CryptoJS = require("crypto-js"); //引用AES源码js
 const key = CryptoJS.enc.Utf8.parse("1dc0d088ae75e5ec"); //十六位十六进制数作为密钥
@@ -92,5 +108,6 @@ module.exports = {
     findMembers,
     generateToken,
     Decrypt,
-    Encrypt
+    Encrypt,
+    getUidByToken
 }

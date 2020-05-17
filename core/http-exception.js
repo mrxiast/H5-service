@@ -58,11 +58,22 @@ class Forbbiden extends HttpException {
     }
 }
 
+class UpLoadFail extends HttpException {
+    constructor(msg, errorCode) {
+        super()
+        this.msg = msg || '上传失败'
+        this.code = 413
+        this.errorCode = errorCode || 10006
+
+    }
+}
+
 module.exports = {
     HttpException,
     ParameterException,
     Success,
     NotFound,
     AuthorFail,
-    Forbbiden
+    Forbbiden,
+    UpLoadFail
 }

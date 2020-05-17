@@ -1,0 +1,9 @@
+{
+  "apps": {
+    "name": "街区后台",
+    "script": "app.js",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+}
