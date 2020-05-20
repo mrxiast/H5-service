@@ -6,7 +6,7 @@ const { sequelize } = require('../../core/db')
 const { Sequelize, Model } = require('sequelize')
 
 class Imgs extends Model {
-
+  //根据类型筛选图片 1为首页banner图片
   static async getImgListByType (type) {
 
     const list = await Imgs.findAll({
@@ -16,6 +16,18 @@ class Imgs extends Model {
     })
     return list
   }
+
+  //根据id 获取商品详情图片
+  static async getImgListById (id) {
+
+    const list = await Imgs.findAll({
+      where: {
+        goods_id: id
+      }
+    })
+    return list
+  }
+
 
 
 

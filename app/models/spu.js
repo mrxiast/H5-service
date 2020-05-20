@@ -19,16 +19,22 @@ class Spu extends Model {
       //limit每页数据数量
       limit: parseInt(pageSize)
     }
-    // if (id) {
-    //   filtter.where = {
-    //     id: id
-    //   }
-    // }
+    if (id) {
+      filtter.where = {
+        item_size_id: id
+      }
+    }
     const result = await Spu.findAndCountAll(filtter)
-    console.log(result, 'result')
     return result
-
-
+  }
+  //获取商品详情
+  static async getGoodsInfo (id) {
+    const info = Spu.findOne({
+      where: {
+        id: id
+      }
+    })
+    return info
   }
 }
 
@@ -40,7 +46,11 @@ Spu.init({
   },
   name: Sequelize.STRING,
   item_size_id: Sequelize.STRING,
-  brand_id: Sequelize.STRING
+  brand_id: Sequelize.STRING,
+  product_url: Sequelize.STRING,
+  content: Sequelize.STRING,
+  newPrice: Sequelize.DECIMAL,
+  price: Sequelize.DECIMAL
 }, {
   sequelize,
   tableName: 'spu'

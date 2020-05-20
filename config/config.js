@@ -1,12 +1,14 @@
 module.exports = {
     env: 'dev',
-    database: {
-        dbName: 'test',
-        host: 'localhost',
-        port: '3306',
-        user: 'root',
-        password: '123456'
-    },
+    //本地测试
+    // database: {
+    //     dbName: 'test',
+    //     host: 'localhost',
+    //     port: '3306',
+    //     user: 'root',
+    //     password: '123456'
+    // },
+    //发布线上
     // database: {
     //     dbName: 'road',
     //     host: 'localhost',
@@ -14,6 +16,14 @@ module.exports = {
     //     user: 'root',
     //     password: 'Xia199208.'
     // },
+    //本地线上
+    database: {
+        dbName: 'road',
+        host: '203.195.222.243',
+        port: '3306',
+        user: 'root',
+        password: 'Xia199208.'
+    },
 
     security: {
         secretKey: '2e61bb59e7',

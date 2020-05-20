@@ -1,5 +1,6 @@
 const Router = require('koa-router')
 const { Itemize } = require('../../models/itemize')
+const { Imgs } = require('../../models/imgs')
 const { Spu } = require('../../models/spu')
 
 const router = new Router({
@@ -27,12 +28,13 @@ router.get('/items', async (ctx, next) => {
   }
 })
 
+//获取分类后的商品列表
 router.get('/goodsList', async (ctx, next) => {
   const id = ctx.request.query.id
   const pageSize = ctx.request.query.pageSize || 10
   const pageNum = ctx.request.query.pageNum || 1
   let offset = (pageNum - 1) * pageSize;
-  const result = await Spu.getGoodsList(id, pageSize, pageNum)
+  const result = await Spu.getGoodsList(id, pageSize, offset)
   if (result) {
     ctx.body = {
       code: 200,
@@ -41,6 +43,23 @@ router.get('/goodsList', async (ctx, next) => {
         list: result.rows
       },
       msg: '操作成功'
+    }
+  }
+})
+
+//获取货物的详情
+router.get('/getGoodsInfo', async (ctx, next) => {
+  const id = ctx.request.query.id
+  const info = await Spu.getGoodsInfo(id)
+  const imgList = await Imgs.getImgListById(id)
+
+  console.log(imgList, 'infop')
+  ctx.body = {
+    code: 200,
+    msg: '操作成功',
+    result: {
+      info: info,
+      imgList: imgList
     }
   }
 })
