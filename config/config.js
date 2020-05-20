@@ -9,21 +9,21 @@ module.exports = {
     //     password: '123456'
     // },
     //发布线上
-    // database: {
-    //     dbName: 'road',
-    //     host: 'localhost',
-    //     port: '3306',
-    //     user: 'root',
-    //     password: 'Xia199208.'
-    // },
-    //本地线上
     database: {
         dbName: 'road',
-        host: '203.195.222.243',
+        host: 'localhost',
         port: '3306',
         user: 'root',
         password: 'Xia199208.'
     },
+    //本地线上
+    // database: {
+    //     dbName: 'road',
+    //     host: '203.195.222.243',
+    //     port: '3306',
+    //     user: 'root',
+    //     password: 'Xia199208.'
+    // },
 
     security: {
         secretKey: '2e61bb59e7',

@@ -53,7 +53,7 @@ router.get('/getGoodsInfo', async (ctx, next) => {
   const info = await Spu.getGoodsInfo(id)
   const imgList = await Imgs.getImgListById(id)
 
-  console.log(imgList, 'infop')
+  console.log(imgList, 'info')
   ctx.body = {
     code: 200,
     msg: '操作成功',
