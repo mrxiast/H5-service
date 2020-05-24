@@ -50,7 +50,12 @@ Spu.init({
   product_url: Sequelize.STRING,
   content: Sequelize.STRING,
   newPrice: Sequelize.DECIMAL,
-  price: Sequelize.DECIMAL
+  price: Sequelize.DECIMAL,
+  ship_address: Sequelize.STRING,
+  logistics: Sequelize.STRING,
+  delivery_time: Sequelize.STRING,
+  after_sale: Sequelize.STRING,
+  quota: Sequelize.INTEGER
 }, {
   sequelize,
   tableName: 'spu'

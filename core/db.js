@@ -20,7 +20,8 @@ const sequelize = new Sequelize(dbName, user, password, {
             dateString: true,
             typeCast: true,
             // collate:'utf8_general_ci'
-        }
+        },
+        query: { raw: true }
     }
 })
 sequelize.sync({

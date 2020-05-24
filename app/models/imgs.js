@@ -23,9 +23,14 @@ class Imgs extends Model {
     const list = await Imgs.findAll({
       where: {
         goods_id: id
-      }
+      },
+      attributes: ['url']
     })
-    return list
+    let endList = []
+    list.forEach(item => {
+      endList.push(item.url)
+    })
+    return endList
   }
 
 

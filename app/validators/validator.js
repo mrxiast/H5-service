@@ -279,6 +279,16 @@ class AddAddressValidtor extends LinValidator {
   }
 }
 
+//验证添加收货地址
+class AddCartValidtor extends LinValidator {
+  constructor() {
+    super()
+    this.skuId = [
+      new Rule('isLength', '商品不能为空', { min: 1 })
+    ]
+  }
+}
+
 module.exports = {
   ValidationInteger,
   RegisterValitor,
@@ -291,5 +301,6 @@ module.exports = {
   ValidationTypeInteger,
   DelAddressValidtor,
   AddOrChangeValidtor,
-  AddAddressValidtor
+  AddAddressValidtor,
+  AddCartValidtor
 }
