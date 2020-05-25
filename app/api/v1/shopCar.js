@@ -25,18 +25,28 @@ router.get('/', new Auth().m, async (ctx, next) => {
   }
   const skuInfoArr = await Sku.getInfo(skuIds)
   const supInfoArr = await Spu.getList(spuIds)
-  const resultList = JSON.parse(JSON.stringify(skuInfoArr))
-  for (let i = 0; i < resultList.length; ++i) {
 
+  const resultList = JSON.parse(JSON.stringify(skuInfoArr))
+  console.log(supInfoArr, resultList, '02')
+  for (let i = 0; i < resultList.length; i++) {
     resultList[i].payNum = list[i].payNum
     resultList[i].skuValues = list[i].skuValues
+    for (let j = 0; j < supInfoArr.length; j++) {
+      if (resultList[i].parentId == supInfoArr[j].id) {
+        resultList[i].name = supInfoArr[j].name
+        resultList[i].content = supInfoArr[j].content
+        resultList[i].content = supInfoArr[j].content
+      }
+    }
+
   }
   if (list) {
     ctx.body = {
       code: 200,
       msg: '操作成功',
       result: resultList,
-      supInfoArr: supInfoArr
+      supInfoArr: supInfoArr,
+      resultList: resultList
     }
   }
 })
