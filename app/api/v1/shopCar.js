@@ -4,6 +4,7 @@ const { AddCartValidtor } = require('../../validators/validator')
 const { Auth } = require('../../../middlewares/auth')
 const { SkuValue } = require('../../models/skuValue')
 const { Spu } = require('../../models/spu')
+const { Sku } = require('../../models/sku')
 const Uuid = require('uuid')
 const { getUidByToken } = require('../../../core/util')
 
@@ -16,11 +17,26 @@ const router = new Router({
 router.get('/', new Auth().m, async (ctx, next) => {
   const userId = getUidByToken(ctx)
   const list = await ShopCar.getList(userId)
+  const skuIds = []
+  const spuIds = []
+  for (let i = 0; i < list.length; ++i) {
+    skuIds.push(list[i].skuId)
+    spuIds.push(list[i].spuId)
+  }
+  const skuInfoArr = await Sku.getInfo(skuIds)
+  const supInfoArr = await Spu.getList(spuIds)
+  const resultList = JSON.parse(JSON.stringify(skuInfoArr))
+  for (let i = 0; i < resultList.length; ++i) {
+
+    resultList[i].payNum = list[i].payNum
+    resultList[i].skuValues = list[i].skuValues
+  }
   if (list) {
     ctx.body = {
       code: 200,
       msg: '操作成功',
-      result: list
+      result: resultList,
+      supInfoArr: supInfoArr
     }
   }
 })

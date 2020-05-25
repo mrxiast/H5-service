@@ -3,7 +3,7 @@ const Uuid = require('uuid')
 
 const { sequelize } = require('../../core/db')
 
-const { Sequelize, Model } = require('sequelize')
+const { Sequelize, Model, Op } = require('sequelize')
 
 class Spu extends Model {
 
@@ -36,6 +36,20 @@ class Spu extends Model {
     })
     return info
   }
+
+  //购物车获取购物车内所有spu
+  static async getList (ids) {
+    const arr = Spu.findAll({
+      where: {
+        id: {
+          [Op.or]: ids
+        }
+      }
+    })
+    return arr
+  }
+
+
 }
 
 Spu.init({

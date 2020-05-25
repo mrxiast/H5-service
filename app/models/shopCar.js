@@ -12,6 +12,9 @@ class ShopCar extends Model {
     const list = await ShopCar.findAll({
       where: {
         userId: userId
+      },
+      attributes: {
+        exclude: ['id']
       }
     })
     return list
