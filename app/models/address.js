@@ -6,6 +6,19 @@ const { sequelize } = require('../../core/db')
 const { Sequelize, Model } = require('sequelize')
 
 class Address extends Model {
+
+  //获取默认地址
+  static async getdefAddress (userId) {
+    const def = await Address.findOne({
+      where: {
+        userId: userId,
+        isDefault: 1
+      }
+    })
+    return def
+  }
+
+
   //获取我的所有地址
   static async getMyAddress (userId) {
     const list = await Address.findAll({
@@ -73,9 +86,6 @@ class Address extends Model {
       return true
     }
   }
-
-
-
 
 }
 

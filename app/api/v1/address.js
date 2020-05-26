@@ -6,6 +6,18 @@ const Uuid = require('uuid')
 const router = new Router({
   prefix: '/v1/address'
 })
+
+//获取默认地址
+router.get('/defaultAddress', async (ctx, next) => {
+  const userId = getUidByToken(ctx)
+  const defaultAddress = await Address.getdefAddress(userId)
+
+  ctx.body = {
+    code: 200,
+    result: defaultAddress,
+    msg: '操作成功'
+  }
+})
 //获取我的地址
 router.post('/myAddress', async (ctx, next) => {
   const userId = ctx.request.body.userId
@@ -81,6 +93,7 @@ router.post('/addAddress', async (ctx, next) => {
     isDefault: V.get('body.isDefault'),
     name: V.get('body.name'),
     province: V.get('body.province'),
+    city: V.get('body.city'),
     tel: V.get('body.tel'),
     id: Uuid.v1(),
     userId: userId
