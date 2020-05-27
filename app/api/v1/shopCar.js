@@ -17,6 +17,22 @@ const router = new Router({
 router.get('/', new Auth().m, async (ctx, next) => {
   const userId = getUidByToken(ctx)
   const list = await ShopCar.getList(userId)
+  if (list.length > 0) {
+    ctx.body = {
+      code: 200,
+      msg: '操作成功',
+      result: await computedData(list),
+    }
+  } else {
+    ctx.body = {
+      code: 200,
+      msg: '操作成功',
+      result: list
+    }
+  }
+})
+
+async function computedData (list) {
   const skuIds = []
   const spuIds = []
   for (let i = 0; i < list.length; ++i) {
@@ -27,9 +43,9 @@ router.get('/', new Auth().m, async (ctx, next) => {
   const supInfoArr = await Spu.getList(spuIds)
 
   const resultList = JSON.parse(JSON.stringify(skuInfoArr))
-  console.log(supInfoArr, resultList, '02')
   for (let i = 0; i < resultList.length; i++) {
     resultList[i].payNum = list[i].payNum
+    resultList[i].shopCarId = list[i].id
     resultList[i].skuValues = list[i].skuValues
     for (let j = 0; j < supInfoArr.length; j++) {
       if (resultList[i].parentId == supInfoArr[j].id) {
@@ -40,16 +56,9 @@ router.get('/', new Auth().m, async (ctx, next) => {
     }
 
   }
-  if (list) {
-    ctx.body = {
-      code: 200,
-      msg: '操作成功',
-      result: resultList,
-      supInfoArr: supInfoArr,
-      resultList: resultList
-    }
-  }
-})
+
+  return resultList
+}
 
 //添加购物车
 router.post('/addCart', new Auth().m, async (ctx, next) => {
@@ -57,7 +66,6 @@ router.post('/addCart', new Auth().m, async (ctx, next) => {
   const V = await new AddCartValidtor().validate(ctx)
   const skuKey = V.get('body.skuKeys')
   const spuId = V.get('body.spuId')
-  console.log(spuId, 'supIdsupIdsupId')
   const skuValues = Object.values(skuKey)
   const skuValueName = await SkuValue.getskuValueNameList(skuValues)
   const spuInfo = await Spu.getGoodsInfo(spuId)
@@ -75,7 +83,6 @@ router.post('/addCart', new Auth().m, async (ctx, next) => {
     spuId: spuId
   }
   const result = await ShopCar.createItem(data)
-  console.log(result, 'resultttt')
   if (result) {
     ctx.body = {
       code: 200,
@@ -85,6 +92,21 @@ router.post('/addCart', new Auth().m, async (ctx, next) => {
   }
 
 
+})
+
+//删除购物车物品
+router.post('/delItem', new Auth().m, async (ctx, next) => {
+  const userId = getUidByToken(ctx)
+  const id = ctx.query.body.id
+  console.log(userId, id)
+  const result = await ShopCar.del(id, userId)
+  if (result) {
+    ctx.body = {
+      code: 200,
+      result: true,
+      msg: '操作成功'
+    }
+  }
 })
 
 

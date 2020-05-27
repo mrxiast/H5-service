@@ -12,18 +12,27 @@ class ShopCar extends Model {
     const list = await ShopCar.findAll({
       where: {
         userId: userId
-      },
-      attributes: {
-        exclude: ['id']
       }
     })
     return list
   }
-
+  //添加购物车
   static async createItem (data) {
     const result = await ShopCar.create(data)
     return result
   }
+
+  //删除购物车内容
+  static async del (id, userId) {
+    const result = await ShopCar.destroy({
+      where: {
+        id,
+        userId
+      }
+    })
+    return result
+  }
+
 }
 
 ShopCar.init({
