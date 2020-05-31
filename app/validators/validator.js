@@ -289,6 +289,22 @@ class AddCartValidtor extends LinValidator {
   }
 }
 
+//验证提交订单
+class AddOrderValidtor extends LinValidator {
+  constructor() {
+    super()
+    this.orderInfo = [
+      new Rule('isLength', '订单信息不能为空', { min: 1 })
+    ],
+      this.addressId = [
+        new Rule('isLength', '地址不能为空', { min: 1 })
+      ],
+      this.allPrice = [
+        new Rule('isLength', '总价不能为空', { min: 1 })
+      ]
+  }
+}
+
 module.exports = {
   ValidationInteger,
   RegisterValitor,
@@ -302,5 +318,6 @@ module.exports = {
   DelAddressValidtor,
   AddOrChangeValidtor,
   AddAddressValidtor,
-  AddCartValidtor
+  AddCartValidtor,
+  AddOrderValidtor
 }

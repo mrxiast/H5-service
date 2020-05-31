@@ -97,7 +97,7 @@ router.post('/addCart', new Auth().m, async (ctx, next) => {
 //删除购物车物品
 router.post('/delItem', new Auth().m, async (ctx, next) => {
   const userId = getUidByToken(ctx)
-  const id = ctx.query.body.id
+  const id = ctx.request.body.id
   console.log(userId, id)
   const result = await ShopCar.del(id, userId)
   if (result) {
